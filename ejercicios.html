@@ -1,0 +1,2331 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Desafío Integrador - Cálculo I</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f1ea;
+            color: #303030;
+        }
+
+        header {
+            background: #176b4d;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        header h1 {
+            margin: 0 0 10px;
+            font-size: 30px;
+        }
+
+        header p {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .contenedor {
+            max-width: 1050px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .tarjeta {
+            background: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.10);
+        }
+
+        h2 {
+            color: #176b4d;
+            margin-top: 0;
+        }
+
+        h3 {
+            color: #176b4d;
+        }
+
+        .menu {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .boton-ejercicio {
+            border: 2px solid #176b4d;
+            background: white;
+            color: #176b4d;
+            padding: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .boton-ejercicio:hover {
+            background: #e8f2ed;
+        }
+
+        .boton-ejercicio.activo {
+            background: #176b4d;
+            color: white;
+        }
+
+        .formulario {
+            display: none;
+        }
+
+        .formulario.activo {
+            display: block;
+        }
+
+        .datos {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .campo {
+            background: #fafafa;
+            border: 1px solid #ddd;
+            padding: 16px;
+            border-radius: 9px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .descripcion {
+            font-size: 14px;
+            font-weight: normal;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #bbb;
+            border-radius: 7px;
+        }
+
+        .boton-resolver {
+            width: 100%;
+            margin-top: 22px;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            background: #176b4d;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .boton-resolver:hover {
+            background: #10533b;
+        }
+
+        .formula {
+            background: #e8f2ed;
+            border-left: 5px solid #176b4d;
+            padding: 16px;
+            text-align: center;
+            font-size: 21px;
+            font-weight: bold;
+            margin: 18px 0;
+        }
+
+        .paso {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background: white;
+        }
+
+        .calculo {
+            background: #f7f7f7;
+            border-left: 4px solid #777;
+            padding: 16px;
+            margin: 15px 0;
+            font-family: "Courier New", monospace;
+            font-size: 15px;
+            line-height: 1.7;
+            overflow-x: auto;
+        }
+
+        .resultado {
+            background: #e8f2ed;
+            border: 2px solid #176b4d;
+            border-radius: 9px;
+            padding: 15px;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .numero {
+            font-size: 28px;
+            font-weight: bold;
+            color: #176b4d;
+            margin-top: 8px;
+        }
+
+        .resultado-final {
+            background: #dcefdc;
+            border: 2px solid #176b4d;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        .resultado-final .numero {
+            font-size: 26px;
+        }
+
+        .interpretacion {
+            background: #fff5d6;
+            padding: 18px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .oculto {
+            display: none;
+        }
+
+        .aviso {
+            background: #fff5d6;
+            border-left: 5px solid #d69e00;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .tabla {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .tabla th,
+        .tabla td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .tabla th {
+            background: #e8f2ed;
+        }
+
+        .seleccion {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 750px) {
+
+            .menu {
+                grid-template-columns: 1fr;
+            }
+
+            .datos {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <h1>Desafío Integrador — Cálculo I</h1>
+
+    <p>
+        Error absoluto, propagación del error y aproximación de Taylor
+    </p>
+
+</header>
+
+
+<div class="contenedor">
+
+
+    <!-- ========================================= -->
+    <!-- SELECCIÓN DEL EJERCICIO -->
+    <!-- ========================================= -->
+
+    <div class="tarjeta">
+
+        <h2>1. Seleccione el ejercicio</h2>
+
+        <p>
+            Seleccione cuál de los tres ejercicios desea resolver.
+        </p>
+
+        <div class="menu">
+
+            <button
+                class="boton-ejercicio activo"
+                id="btn1"
+                onclick="mostrarEjercicio(1)">
+
+                Ejercicio 1<br>
+                <small>Error y propagación</small>
+
+            </button>
+
+
+            <button
+                class="boton-ejercicio"
+                id="btn2"
+                onclick="mostrarEjercicio(2)">
+
+                Ejercicio 2<br>
+                <small>Taylor y Lagrange</small>
+
+            </button>
+
+
+            <button
+                class="boton-ejercicio"
+                id="btn3"
+                onclick="mostrarEjercicio(3)">
+
+                Ejercicio 3<br>
+                <small>Péndulo y propagación</small>
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- ========================================= -->
+    <!-- EJERCICIO 1 -->
+    <!-- ========================================= -->
+
+    <div
+        id="ejercicio1"
+        class="formulario activo">
+
+        <div class="tarjeta">
+
+            <h2>Ejercicio 1 — Error absoluto, relativo y propagación</h2>
+
+            <p>
+                Un ingeniero mide el lado de una placa cuadrada.
+                Se compara la medición con un valor de referencia.
+                El área está dada por:
+            </p>
+
+            <div class="formula">
+                A = x²
+            </div>
+
+
+            <h3>Ingrese los datos</h3>
+
+            <div class="datos">
+
+                <div class="campo">
+
+                    <label>
+                        Medición experimental xₐ
+                    </label>
+
+                    <div class="descripcion">
+                        En centímetros
+                    </div>
+
+                    <input
+                        type="number"
+                        id="e1_xa"
+                        value="12.4"
+                        step="any">
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label>
+                        Valor de referencia xᵣ
+                    </label>
+
+                    <div class="descripcion">
+                        En centímetros
+                    </div>
+
+                    <input
+                        type="number"
+                        id="e1_xr"
+                        value="12.5"
+                        step="any">
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="boton-resolver"
+                onclick="resolverEjercicio1()">
+
+                RESOLVER EJERCICIO 1
+
+            </button>
+
+        </div>
+
+
+        <div
+            id="resultado1"
+            class="oculto">
+
+        </div>
+
+    </div>
+
+
+    <!-- ========================================= -->
+    <!-- EJERCICIO 2 -->
+    <!-- ========================================= -->
+
+    <div
+        id="ejercicio2"
+        class="formulario">
+
+        <div class="tarjeta">
+
+            <h2>Ejercicio 2 — Taylor, error y Lagrange</h2>
+
+            <p>
+                Se considera:
+            </p>
+
+            <div class="formula">
+                f(x) = eˣ
+            </div>
+
+            <p>
+                Se utilizarán polinomios de Taylor de grado 1 y 2
+                alrededor de un punto a.
+            </p>
+
+
+            <h3>Ingrese los datos</h3>
+
+            <div class="datos">
+
+
+                <div class="campo">
+
+                    <label>
+                        Punto de expansión a
+                    </label>
+
+                    <div class="descripcion">
+                        En el ejercicio original: a = 0
+                    </div>
+
+                    <input
+                        type="number"
+                        id="e2_a"
+                        value="0"
+                        step="any">
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label>
+                        Valor x a aproximar
+                    </label>
+
+                    <div class="descripcion">
+                        En el ejercicio original: x = 0.3
+                    </div>
+
+                    <input
+                        type="number"
+                        id="e2_x"
+                        value="0.3"
+                        step="any">
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="boton-resolver"
+                onclick="resolverEjercicio2()">
+
+                RESOLVER EJERCICIO 2
+
+            </button>
+
+        </div>
+
+
+        <div
+            id="resultado2"
+            class="oculto">
+
+        </div>
+
+    </div>
+
+
+    <!-- ========================================= -->
+    <!-- EJERCICIO 3 -->
+    <!-- ========================================= -->
+
+    <div
+        id="ejercicio3"
+        class="formulario">
+
+        <div class="tarjeta">
+
+            <h2>Ejercicio 3 — Péndulo y propagación del error</h2>
+
+            <p>
+                La aceleración de la gravedad se estima mediante:
+            </p>
+
+            <div class="formula">
+                g = (4π²L) / T²
+            </div>
+
+
+            <h3>Datos experimentales</h3>
+
+            <div class="datos">
+
+
+                <div class="campo">
+
+                    <label>
+                        Longitud L
+                    </label>
+
+                    <div class="descripcion">
+                        En metros
+                    </div>
+
+                    <input
+                        type="number"
+                        id="e3_L"
+                        value="1.000"
+                        step="any">
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label>
+                        Error de L: ΔL
+                    </label>
+
+                    <div class="descripcion">
+                        En metros
+                    </div>
+
+                    <input
+                        type="number"
+                        id="e3_dL"
+                        value="0.002"
+                        step="any">
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label>
+                        Período T
+                    </label>
+
+                    <div class="descripcion">
+                        En segundos
+                    </div>
+
+                    <input
+                        type="number"
+                        id="e3_T"
+                        value="2.006"
+                        step="any">
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label>
+                        Error de T: ΔT
+                    </label>
+
+                    <div class="descripcion">
+                        En segundos
+                    </div>
+
+                    <input
+                        type="number"
+                        id="e3_dT"
+                        value="0.004"
+                        step="any">
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label>
+                        Valor real de g
+                    </label>
+
+                    <div class="descripcion">
+                        En m/s²
+                    </div>
+
+                    <input
+                        type="number"
+                        id="e3_greal"
+                        value="9.8"
+                        step="any">
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label>
+                        Punto para Taylor T₀
+                    </label>
+
+                    <div class="descripcion">
+                        En el ejercicio original: T₀ = 2
+                    </div>
+
+                    <input
+                        type="number"
+                        id="e3_T0"
+                        value="2"
+                        step="any">
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="boton-resolver"
+                onclick="resolverEjercicio3()">
+
+                RESOLVER EJERCICIO 3
+
+            </button>
+
+        </div>
+
+
+        <div
+            id="resultado3"
+            class="oculto">
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+
+// =====================================================
+// FUNCIONES GENERALES
+// =====================================================
+
+
+function formato(numero, decimales = 6) {
+
+    if (!isFinite(numero)) {
+        return "No válido";
+    }
+
+    return numero.toLocaleString(
+        "es-ES",
+        {
+            maximumFractionDigits: decimales
+        }
+    );
+
+}
+
+
+function numero(valor) {
+
+    return parseFloat(valor);
+
+}
+
+
+// =====================================================
+// SELECCIONAR EJERCICIO
+// =====================================================
+
+
+function mostrarEjercicio(n) {
+
+
+    document
+        .getElementById("ejercicio1")
+        .classList
+        .remove("activo");
+
+
+    document
+        .getElementById("ejercicio2")
+        .classList
+        .remove("activo");
+
+
+    document
+        .getElementById("ejercicio3")
+        .classList
+        .remove("activo");
+
+
+    document
+        .getElementById("btn1")
+        .classList
+        .remove("activo");
+
+
+    document
+        .getElementById("btn2")
+        .classList
+        .remove("activo");
+
+
+    document
+        .getElementById("btn3")
+        .classList
+        .remove("activo");
+
+
+    document
+        .getElementById("ejercicio" + n)
+        .classList
+        .add("activo");
+
+
+    document
+        .getElementById("btn" + n)
+        .classList
+        .add("activo");
+
+}
+
+
+// =====================================================
+// EJERCICIO 1
+// =====================================================
+
+
+function resolverEjercicio1() {
+
+
+    const xa =
+        numero(
+            document.getElementById("e1_xa").value
+        );
+
+
+    const xr =
+        numero(
+            document.getElementById("e1_xr").value
+        );
+
+
+    if (
+        !isFinite(xa) ||
+        !isFinite(xr) ||
+        xr === 0
+    ) {
+
+        alert(
+            "Ingrese valores válidos. El valor de referencia no puede ser 0."
+        );
+
+        return;
+
+    }
+
+
+    // -----------------------------------------------
+    // Paso 1
+    // -----------------------------------------------
+
+    const Ea =
+        Math.abs(xa - xr);
+
+
+    // -----------------------------------------------
+    // Paso 2
+    // -----------------------------------------------
+
+    const Er =
+        (Ea / Math.abs(xr)) * 100;
+
+
+    // -----------------------------------------------
+    // Paso 3
+    // Área
+    // -----------------------------------------------
+
+    const area =
+        xr * xr;
+
+
+    // -----------------------------------------------
+    // Paso 4
+    // Derivada
+    // -----------------------------------------------
+
+    const derivada =
+        2 * xr;
+
+
+    // -----------------------------------------------
+    // Paso 5
+    // Propagación
+    // -----------------------------------------------
+
+    const deltaA =
+        Math.abs(derivada) * Ea;
+
+
+    // -----------------------------------------------
+    // Paso 6
+    // Error relativo propagado del área
+    // -----------------------------------------------
+
+    const ErA =
+        (deltaA / area) * 100;
+
+
+    const resultado =
+        document.getElementById("resultado1");
+
+
+    resultado.classList.remove("oculto");
+
+
+    resultado.innerHTML = `
+
+
+        <div class="tarjeta">
+
+            <h2>Solución paso por paso — Ejercicio 1</h2>
+
+
+            <div class="paso">
+
+                <h3>Paso 1 — Error absoluto</h3>
+
+                <p>
+                    La fórmula es:
+                </p>
+
+                <div class="formula">
+                    Eₐ = |xₐ − xᵣ|
+                </div>
+
+                <div class="calculo">
+
+                    Eₐ = |${formato(xa)} − ${formato(xr)}|
+
+                    <br><br>
+
+                    Eₐ = |${formato(xa - xr)}|
+
+                    <br><br>
+
+                    Eₐ = <strong>${formato(Ea)} cm</strong>
+
+                </div>
+
+                <div class="resultado">
+
+                    Error absoluto
+
+                    <div class="numero">
+                        ${formato(Ea)} cm
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="paso">
+
+                <h3>Paso 2 — Error relativo porcentual</h3>
+
+                <div class="formula">
+                    Eᵣ(%) = (Eₐ / xᵣ) × 100
+                </div>
+
+                <div class="calculo">
+
+                    Eᵣ(%) =
+                    (${formato(Ea)} ÷ ${formato(xr)}) × 100
+
+                    <br><br>
+
+                    Eᵣ(%) =
+                    <strong>${formato(Er)} %</strong>
+
+                </div>
+
+                <div class="resultado">
+
+                    Error relativo porcentual
+
+                    <div class="numero">
+                        ${formato(Er)} %
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="paso">
+
+                <h3>Paso 3 — Área de la placa</h3>
+
+                <div class="formula">
+                    A = x²
+                </div>
+
+                <p>
+                    Usamos el valor de referencia:
+                    x = xᵣ
+                </p>
+
+                <div class="calculo">
+
+                    A = (${formato(xr)})²
+
+                    <br><br>
+
+                    A =
+                    ${formato(xr)} × ${formato(xr)}
+
+                    <br><br>
+
+                    A =
+                    <strong>${formato(area)} cm²</strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="paso">
+
+                <h3>Paso 4 — Derivada del área</h3>
+
+                <div class="formula">
+                    A'(x) = 2x
+                </div>
+
+                <div class="calculo">
+
+                    A'(${formato(xr)})
+                    = 2 × ${formato(xr)}
+
+                    <br><br>
+
+                    A'(${formato(xr)})
+                    = <strong>${formato(derivada)}</strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="paso">
+
+                <h3>Paso 5 — Propagación del error</h3>
+
+                <div class="formula">
+                    ΔA ≈ |A'(x)| Δx
+                </div>
+
+                <p>
+                    El ejercicio indica:
+                </p>
+
+                <div class="formula">
+                    Δx = Eₐ
+                </div>
+
+                <div class="calculo">
+
+                    ΔA ≈
+                    |${formato(derivada)}|
+                    × ${formato(Ea)}
+
+                    <br><br>
+
+                    ΔA ≈
+                    ${formato(derivada)}
+                    × ${formato(Ea)}
+
+                    <br><br>
+
+                    ΔA ≈
+                    <strong>${formato(deltaA)} cm²</strong>
+
+                </div>
+
+                <div class="resultado">
+
+                    Error absoluto propagado al área
+
+                    <div class="numero">
+                        ${formato(deltaA)} cm²
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="paso">
+
+                <h3>Paso 6 — Error relativo porcentual del área</h3>
+
+                <div class="formula">
+                    Eᵣ(A) = (ΔA / A) × 100
+                </div>
+
+                <div class="calculo">
+
+                    Eᵣ(A) =
+                    (${formato(deltaA)}
+                    ÷
+                    ${formato(area)}) × 100
+
+                    <br><br>
+
+                    Eᵣ(A) =
+                    <strong>${formato(ErA)} %</strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="resultado-final">
+
+                <h2>Resultado final</h2>
+
+                <p>
+                    Error absoluto del lado:
+                </p>
+
+                <div class="numero">
+                    ${formato(Ea)} cm
+                </div>
+
+                <p>
+                    Error relativo del lado:
+                </p>
+
+                <div class="numero">
+                    ${formato(Er)} %
+                </div>
+
+                <p>
+                    Área:
+                </p>
+
+                <div class="numero">
+                    ${formato(area)} cm²
+                </div>
+
+                <p>
+                    Error propagado al área:
+                </p>
+
+                <div class="numero">
+                    ${formato(deltaA)} cm²
+                </div>
+
+                <p>
+                    Error relativo del área:
+                </p>
+
+                <div class="numero">
+                    ${formato(ErA)} %
+                </div>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    resultado.scrollIntoView({
+        behavior: "smooth"
+    });
+
+}
+
+
+// =====================================================
+// EJERCICIO 2
+// =====================================================
+
+
+function resolverEjercicio2() {
+
+
+    const a =
+        numero(
+            document.getElementById("e2_a").value
+        );
+
+
+    const x =
+        numero(
+            document.getElementById("e2_x").value
+        );
+
+
+    if (
+        !isFinite(a) ||
+        !isFinite(x)
+    ) {
+
+        alert(
+            "Ingrese valores válidos."
+        );
+
+        return;
+
+    }
+
+
+    // -----------------------------------------------
+    // Valor real
+    // -----------------------------------------------
+
+    const real =
+        Math.exp(x);
+
+
+    // -----------------------------------------------
+    // Taylor grado 1
+    // -----------------------------------------------
+
+    const fa =
+        Math.exp(a);
+
+
+    const f1a =
+        Math.exp(a);
+
+
+    const P1 =
+        fa +
+        f1a * (x - a);
+
+
+    // -----------------------------------------------
+    // Taylor grado 2
+    // -----------------------------------------------
+
+    const f2a =
+        Math.exp(a);
+
+
+    const P2 =
+        fa +
+        f1a * (x - a) +
+        (f2a / 2) *
+        Math.pow(x - a, 2);
+
+
+    // -----------------------------------------------
+    // Errores
+    // -----------------------------------------------
+
+    const errorP1 =
+        Math.abs(real - P1);
+
+
+    const errorP2 =
+        Math.abs(real - P2);
+
+
+    const relativoP1 =
+        (errorP1 / Math.abs(real)) * 100;
+
+
+    const relativoP2 =
+        (errorP2 / Math.abs(real)) * 100;
+
+
+    // -----------------------------------------------
+    // Cota de Lagrange
+    //
+    // Para e^x:
+    // f'''(ξ) = e^ξ
+    //
+    // Como ξ está entre a y x,
+    // usamos el máximo de e^ξ.
+    // -----------------------------------------------
+
+    const maxExp =
+        Math.exp(
+            Math.max(a, x)
+        );
+
+
+    const cota =
+        (maxExp / 6) *
+        Math.pow(
+            Math.abs(x - a),
+            3
+        );
+
+
+    const resultado =
+        document.getElementById("resultado2");
+
+
+    resultado.classList.remove("oculto");
+
+
+    resultado.innerHTML = `
+
+
+        <div class="tarjeta">
+
+            <h2>Solución paso por paso — Ejercicio 2</h2>
+
+
+            <div class="paso">
+
+                <h3>Paso 1 — Función y derivadas</h3>
+
+                <div class="formula">
+                    f(x) = eˣ
+                </div>
+
+                <p>
+                    Sus derivadas son:
+                </p>
+
+                <div class="calculo">
+
+                    f'(x) = eˣ
+
+                    <br>
+
+                    f''(x) = eˣ
+
+                    <br>
+
+                    f'''(x) = eˣ
+
+                </div>
+
+                <p>
+                    Evaluando en a = ${formato(a)}:
+                </p>
+
+                <div class="calculo">
+
+                    f(${formato(a)})
+                    = e^${formato(a)}
+                    = ${formato(fa)}
+
+                    <br><br>
+
+                    f'(${formato(a)})
+                    = e^${formato(a)}
+                    = ${formato(f1a)}
+
+                    <br><br>
+
+                    f''(${formato(a)})
+                    = e^${formato(a)}
+                    = ${formato(f2a)}
+
+                </div>
+
+            </div>
+
+
+            <div class="paso">
+
+                <h3>Paso 2 — Polinomio de Taylor de grado 1</h3>
+
+                <div class="formula">
+
+                    P₁(x) =
+                    f(a) + f'(a)(x − a)
+
+                </div>
+
+                <div class="calculo">
+
+                    P₁(x) =
+
+                    ${formato(fa)}
+
+                    +
+
+                    ${formato(f1a)}
+                    (x − ${formato(a)})
+
+                    <br><br>
+
+                    Ahora x = ${formato(x)}:
+
+                    <br><br>
+
+                    P₁(${formato(x)}) =
+
+                    ${formato(fa)}
+
+                    +
+
+                    ${formato(f1a)}
+                    (${formato(x)} − ${formato(a)})
+
+                    <br><br>
+
+                    P₁(${formato(x)})
+                    = <strong>${formato(P1)}</strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="paso">
+
+                <h3>Paso 3 — Polinomio de Taylor de grado 2</h3>
+
+                <div class="formula">
+
+                    P₂(x) =
+                    f(a) + f'(a)(x−a)
+                    + f''(a)(x−a)² / 2!
+
+                </div>
+
+                <div class="calculo">
+
+                    P₂(${formato(x)}) =
+
+                    ${formato(fa)}
+
+                    +
+
+                    ${formato(f1a)}
+                    (${formato(x)} − ${formato(a)})
+
+                    +
+
+                    [${formato(f2a)} / 2]
+                    (${formato(x)} − ${formato(a)})²
+
+                    <br><br>
+
+                    P₂(${formato(x)})
+                    = <strong>${formato(P2)}</strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="paso">
+
+                <h3>Paso 4 — Valor real de eˣ</h3>
+
+                <div class="calculo">
+
+                    f(${formato(x)})
+                    = e^${formato(x)}
+
+                    <br><br>
+
+                    f(${formato(x)})
+                    = <strong>${formato(real, 10)}</strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="paso">
+
+                <h3>Paso 5 — Error absoluto de P₁</h3>
+
+                <div class="formula">
+                    Eₐ = |Valor real − Aproximación|
+                </div>
+
+                <div class="calculo">
+
+                    Eₐ =
+
+                    |${formato(real, 10)}
+                    −
+                    ${formato(P1)}|
+
+                    <br><br>
+
+                    Eₐ =
+                    <strong>${formato(errorP1, 10)}</strong>
+
+                </div>
+
+                <div class="resultado">
+
+                    Error relativo porcentual de P₁
+
+                    <div class="numero">
+
+                        ${formato(relativoP1)} %
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="paso">
+
+                <h3>Paso 6 — Error absoluto de P₂</h3>
+
+                <div class="calculo">
+
+                    Eₐ =
+
+                    |${formato(real, 10)}
+                    −
+                    ${formato(P2)}|
+
+                    <br><br>
+
+                    Eₐ =
+                    <strong>${formato(errorP2, 10)}</strong>
+
+                    <br><br>
+
+                    Error relativo:
+
+                    <br><br>
+
+                    Eᵣ(%) =
+
+                    (${formato(errorP2, 10)}
+                    ÷
+                    ${formato(real, 10)})
+                    × 100
+
+                    <br><br>
+
+                    Eᵣ(%) =
+                    <strong>${formato(relativoP2)} %</strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="paso">
+
+                <h3>Paso 7 — Residuo de Lagrange</h3>
+
+                <div class="formula">
+
+                    R₂(x) =
+                    [f'''(ξ) / 3!] (x−a)³
+
+                </div>
+
+                <p>
+                    Como:
+                </p>
+
+                <div class="formula">
+                    f'''(ξ) = eξ
+                </div>
+
+                <p>
+                    Tomamos como cota el máximo valor de eξ
+                    entre a y x.
+                </p>
+
+                <div class="calculo">
+
+                    max(eξ) =
+                    e^${formato(Math.max(a,x))}
+
+                    = ${formato(maxExp)}
+
+                    <br><br>
+
+                    |R₂(${formato(x)})| ≤
+
+                    [${formato(maxExp)} / 6]
+
+                    ×
+
+                    (${formato(x)} − ${formato(a)})³
+
+                    <br><br>
+
+                    |R₂(${formato(x)})| ≤
+
+                    <strong>${formato(cota, 10)}</strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="resultado-final">
+
+                <h2>Resultados finales</h2>
+
+                <table class="tabla">
+
+                    <tr>
+                        <th></th>
+                        <th>Valor</th>
+                        <th>Error absoluto</th>
+                        <th>Error relativo</th>
+                    </tr>
+
+                    <tr>
+                        <td>P₁</td>
+                        <td>${formato(P1)}</td>
+                        <td>${formato(errorP1, 10)}</td>
+                        <td>${formato(relativoP1)} %</td>
+                    </tr>
+
+                    <tr>
+                        <td>P₂</td>
+                        <td>${formato(P2)}</td>
+                        <td>${formato(errorP2, 10)}</td>
+                        <td>${formato(relativoP2)} %</td>
+                    </tr>
+
+                    <tr>
+                        <td>Real</td>
+                        <td>${formato(real, 10)}</td>
+                        <td>—</td>
+                        <td>—</td>
+                    </tr>
+
+                </table>
+
+                <p>
+                    Cota de Lagrange:
+                </p>
+
+                <div class="numero">
+                    ${formato(cota, 10)}
+                </div>
+
+            </div>
+
+
+            <div class="interpretacion">
+
+                <strong>Interpretación:</strong>
+
+                <p>
+
+                    El polinomio de Taylor de grado 2
+                    proporciona una aproximación más precisa
+                    que el polinomio de grado 1 cuando la
+                    evaluación se realiza cerca del punto de
+                    expansión.
+
+                </p>
+
+                <p>
+
+                    El error real de P₂ es menor que la cota
+                    obtenida mediante el residuo de Lagrange.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    resultado.scrollIntoView({
+        behavior: "smooth"
+    });
+
+}
+
+
+// =====================================================
+// EJERCICIO 3
+// =====================================================
+
+
+function resolverEjercicio3() {
+
+
+    const L =
+        numero(
+            document.getElementById("e3_L").value
+        );
+
+
+    const dL =
+        numero(
+            document.getElementById("e3_dL").value
+        );
+
+
+    const T =
+        numero(
+            document.getElementById("e3_T").value
+        );
+
+
+    const dT =
+        numero(
+            document.getElementById("e3_dT").value
+        );
+
+
+    const greal =
+        numero(
+            document.getElementById("e3_greal").value
+        );
+
+
+    const T0 =
+        numero(
+            document.getElementById("e3_T0").value
+        );
+
+
+    if (
+        !isFinite(L) ||
+        !isFinite(dL) ||
+        !isFinite(T) ||
+        !isFinite(dT) ||
+        !isFinite(greal) ||
+        !isFinite(T0) ||
+        T === 0 ||
+        T0 === 0
+    ) {
+
+        alert(
+            "Ingrese valores válidos. T y T₀ no pueden ser cero."
+        );
+
+        return;
+
+    }
+
+
+    // =================================================
+    // A) VALOR EXPERIMENTAL
+    // =================================================
+
+    const g =
+        (4 * Math.PI * Math.PI * L) /
+        Math.pow(T, 2);
+
+
+    // Error absoluto
+
+    const Ea =
+        Math.abs(g - greal);
+
+
+    // Error relativo
+
+    const Er =
+        (Ea / Math.abs(greal)) * 100;
+
+
+    // =================================================
+    // B) DERIVADAS PARCIALES
+    // =================================================
+
+
+    const dg_dL =
+        (4 * Math.PI * Math.PI) /
+        Math.pow(T, 2);
+
+
+    const dg_dT =
+        -(8 * Math.PI * Math.PI * L) /
+        Math.pow(T, 3);
+
+
+    // =================================================
+    // C) PROPAGACIÓN
+    // =================================================
+
+
+    const aporteL =
+        Math.abs(dg_dL) * dL;
+
+
+    const aporteT =
+        Math.abs(dg_dT) * dT;
+
+
+    const deltaG =
+        aporteL + aporteT;
+
+
+    // Error relativo propagado
+
+    const ErProp =
+        (deltaG / Math.abs(g)) * 100;
+
+
+    // =================================================
+    // D) TAYLOR
+    // =================================================
+
+    // L fijo
+
+    const funcionT0 =
+        (4 * Math.PI * Math.PI * L) /
+        Math.pow(T0, 2);
+
+
+    const derivadaT0 =
+        -(8 * Math.PI * Math.PI * L) /
+        Math.pow(T0, 3);
+
+
+    const taylor =
+        funcionT0 +
+        derivadaT0 * (T - T0);
+
+
+    const errorTaylor =
+        Math.abs(g - taylor);
+
+
+    const relativoTaylor =
+        (errorTaylor / Math.abs(g)) * 100;
+
+
+    const resultado =
+        document.getElementById("resultado3");
+
+
+    resultado.classList.remove("oculto");
+
+
+    resultado.innerHTML = `
+
+
+        <div class="tarjeta">
+
+            <h2>Solución paso por paso — Ejercicio 3</h2>
+
+
+            <div class="paso">
+
+                <h3>Paso 1 — Valor experimental de g</h3>
+
+                <div class="formula">
+
+                    g =
+                    (4π²L) / T²
+
+                </div>
+
+                <div class="calculo">
+
+                    g =
+
+                    [4π² × ${formato(L)}]
+
+                    ÷
+
+                    (${formato(T)})²
+
+                    <br><br>
+
+                    g =
+
+                    [4π² × ${formato(L)}]
+
+                    ÷
+
+                    ${formato(T*T)}
+
+                    <br><br>
+
+                    g =
+
+                    <strong>${formato(g, 10)} m/s²</strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="paso">
+
+                <h3>Paso 2 — Error absoluto</h3>
+
+                <div class="formula">
+
+                    Eₐ = |g experimental − g real|
+
+                </div>
+
+                <div class="calculo">
+
+                    Eₐ =
+
+                    |${formato(g, 10)}
+                    −
+                    ${formato(greal)}|
+
+                    <br><br>
+
+                    Eₐ =
+
+                    <strong>${formato(Ea, 10)} m/s²</strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="paso">
+
+                <h3>Paso 3 — Error relativo porcentual</h3>
+
+                <div class="formula">
+
+                    Eᵣ(%) =
+                    (Eₐ / g real) × 100
+
+                </div>
+
+                <div class="calculo">
+
+                    Eᵣ(%) =
+
+                    (${formato(Ea, 10)}
+                    ÷
+                    ${formato(greal)})
+                    × 100
+
+                    <br><br>
+
+                    Eᵣ(%) =
+                    <strong>${formato(Er)} %</strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="paso">
+
+                <h3>Paso 4 — Derivada parcial respecto de L</h3>
+
+                <div class="formula">
+
+                    ∂g/∂L =
+                    4π² / T²
+
+                </div>
+
+                <div class="calculo">
+
+                    ∂g/∂L =
+
+                    4π² /
+                    (${formato(T)})²
+
+                    <br><br>
+
+                    ∂g/∂L =
+
+                    <strong>${formato(dg_dL, 10)}</strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="paso">
+
+                <h3>Paso 5 — Derivada parcial respecto de T</h3>
+
+                <div class="formula">
+
+                    ∂g/∂T =
+                    −8π²L / T³
+
+                </div>
+
+                <div class="calculo">
+
+                    ∂g/∂T =
+
+                    −8π²(${formato(L)})
+                    /
+                    (${formato(T)})³
+
+                    <br><br>
+
+                    ∂g/∂T =
+
+                    <strong>${formato(dg_dT, 10)}</strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="paso">
+
+                <h3>Paso 6 — Aporte del error de L</h3>
+
+                <div class="formula">
+
+                    ΔgL =
+                    |∂g/∂L| ΔL
+
+                </div>
+
+                <div class="calculo">
+
+                    ΔgL =
+
+                    |${formato(dg_dL, 10)}|
+                    ×
+                    ${formato(dL)}
+
+                    <br><br>
+
+                    ΔgL =
+
+                    <strong>${formato(aporteL, 10)} m/s²</strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="paso">
+
+                <h3>Paso 7 — Aporte del error de T</h3>
+
+                <div class="formula">
+
+                    ΔgT =
+                    |∂g/∂T| ΔT
+
+                </div>
+
+                <div class="calculo">
+
+                    ΔgT =
+
+                    |${formato(dg_dT, 10)}|
+                    ×
+                    ${formato(dT)}
+
+                    <br><br>
+
+                    ΔgT =
+
+                    <strong>${formato(aporteT, 10)} m/s²</strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="paso">
+
+                <h3>Paso 8 — Error propagado total</h3>
+
+                <div class="formula">
+
+                    Δg ≈
+                    |∂g/∂L|ΔL
+                    +
+                    |∂g/∂T|ΔT
+
+                </div>
+
+                <div class="calculo">
+
+                    Δg =
+
+                    ${formato(aporteL, 10)}
+
+                    +
+
+                    ${formato(aporteT, 10)}
+
+                    <br><br>
+
+                    Δg =
+
+                    <strong>${formato(deltaG, 10)} m/s²</strong>
+
+                </div>
+
+                <div class="resultado">
+
+                    Error propagado
+
+                    <div class="numero">
+
+                        ${formato(deltaG, 10)} m/s²
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="paso">
+
+                <h3>Paso 9 — Error relativo propagado</h3>
+
+                <div class="formula">
+
+                    Eᵣ(g)(%) =
+                    (Δg / |g|) × 100
+
+                </div>
+
+                <div class="calculo">
+
+                    Eᵣ(g) =
+
+                    (${formato(deltaG, 10)}
+                    ÷
+                    ${formato(g, 10)})
+                    × 100
+
+                    <br><br>
+
+                    Eᵣ(g) =
+
+                    <strong>${formato(ErProp)} %</strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="paso">
+
+                <h3>Paso 10 — Taylor de grado 1</h3>
+
+                <p>
+                    Consideramos L constante y trabajamos
+                    únicamente con T.
+                </p>
+
+                <div class="formula">
+
+                    g(T) =
+                    4π²L / T²
+
+                </div>
+
+                <p>
+                    El polinomio de Taylor de grado 1 es:
+                </p>
+
+                <div class="formula">
+
+                    P₁(T) =
+                    g(T₀) + g'(T₀)(T − T₀)
+
+                </div>
+
+                <div class="calculo">
+
+                    g(${formato(T0)}) =
+
+                    4π²(${formato(L)})
+                    /
+                    (${formato(T0)})²
+
+                    <br><br>
+
+                    g(${formato(T0)})
+                    =
+
+                    <strong>${formato(funcionT0, 10)}</strong>
+
+                    <br><br>
+
+                    g'(${formato(T0)}) =
+
+                    −8π²(${formato(L)})
+                    /
+                    (${formato(T0)})³
+
+                    <br><br>
+
+                    g'(${formato(T0)})
+                    =
+
+                    <strong>${formato(derivadaT0, 10)}</strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="paso">
+
+                <h3>Paso 11 — Evaluación de Taylor</h3>
+
+                <div class="calculo">
+
+                    P₁(${formato(T)}) =
+
+                    ${formato(funcionT0, 10)}
+
+                    +
+
+                    ${formato(derivadaT0, 10)}
+
+                    ×
+
+                    (${formato(T)}
+                    −
+                    ${formato(T0)})
+
+                    <br><br>
+
+                    P₁(${formato(T)}) =
+
+                    <strong>${formato(taylor, 10)}
+                    m/s²</strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="paso">
+
+                <h3>Paso 12 — Error de la aproximación de Taylor</h3>
+
+                <div class="formula">
+
+                    Eₐ =
+                    |Valor directo − Taylor|
+
+                </div>
+
+                <div class="calculo">
+
+                    Eₐ =
+
+                    |${formato(g, 10)}
+                    −
+                    ${formato(taylor, 10)}|
+
+                    <br><br>
+
+                    Eₐ =
+
+                    <strong>${formato(errorTaylor, 10)}
+                    m/s²</strong>
+
+                    <br><br>
+
+                    Error relativo:
+
+                    <br><br>
+
+                    Eᵣ =
+
+                    (${formato(errorTaylor, 10)}
+                    ÷
+                    ${formato(g, 10)})
+                    × 100
+
+                    <br><br>
+
+                    Eᵣ =
+
+                    <strong>${formato(relativoTaylor)} %</strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="resultado-final">
+
+                <h2>Resultados finales</h2>
+
+                <p>
+                    Valor experimental:
+                </p>
+
+                <div class="numero">
+                    ${formato(g, 10)} m/s²
+                </div>
+
+                <p>
+                    Error absoluto respecto a g real:
+                </p>
+
+                <div class="numero">
+                    ${formato(Ea, 10)} m/s²
+                </div>
+
+                <p>
+                    Error relativo:
+                </p>
+
+                <div class="numero">
+                    ${formato(Er)} %
+                </div>
+
+                <p>
+                    Error propagado:
+                </p>
+
+                <div class="numero">
+                    ${formato(deltaG, 10)} m/s²
+                </div>
+
+                <p>
+                    Taylor de grado 1:
+                </p>
+
+                <div class="numero">
+                    ${formato(taylor, 10)} m/s²
+                </div>
+
+                <p>
+                    Error de Taylor:
+                </p>
+
+                <div class="numero">
+                    ${formato(errorTaylor, 10)} m/s²
+                </div>
+
+            </div>
+
+
+            <div class="interpretacion">
+
+                <strong>Interpretación:</strong>
+
+                <p>
+
+                    El valor experimental de g se compara con
+                    el valor real introducido. La propagación
+                    del error permite estimar cuánto afectan las
+                    incertidumbres de L y T al resultado final.
+
+                </p>
+
+                <p>
+
+                    Además, el método de Taylor de primer grado
+                    permite aproximar g(T) alrededor del punto
+                    T₀. Como T está relativamente cerca de T₀,
+                    la aproximación puede ser bastante precisa.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    resultado.scrollIntoView({
+        behavior: "smooth"
+    });
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
